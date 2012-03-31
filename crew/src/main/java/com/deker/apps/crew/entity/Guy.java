@@ -2,9 +2,9 @@ package com.deker.apps.crew.entity;
 
 import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
-public class Member extends AbstractEntity{
+public class Guy extends Entity{
 
-	public Member(String name, UniqueIdentifier identifier) {
+	public Guy(String name, UniqueIdentifier identifier) {
 		super(name, identifier);
 	}
 

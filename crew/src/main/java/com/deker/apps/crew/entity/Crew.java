@@ -5,66 +5,89 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.util.Assert;
 
+import com.deker.apps.crew.entity.exception.GuyNotInCrewException;
+import com.deker.apps.crew.entity.exception.RoleNotInCrewException;
 import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
 /**
- * A <i>Crew</i> is made of {@link Member}s.
+ * A <i>Crew</i> is made of {@link Guy}s.
  * <ul>
- * <li>In a Crew, each {@link Member} has a unique {@link Role}</li>
+ * <li>In a Crew, each {@link Guy} has a unique {@link Role}</li>
  * <li>In a Crew, each {@link Role} provides a set of {@link Power}s
  * <li>
  * 
  * @author nicolasdeker
  * 
  */
-public class Crew extends AbstractEntity {
+public class Crew extends Entity {
 
 	// the Crew guys and their respective Title
-	private Map<Member, Role> membersRole;
+	private Map<Guy, Role> guysRole;
 	// the Titles and their respective Powers
-	private Map<Role, Collection<Power>> rolesPowers;
+	private Map<Role, Set<Power>> rolesPowers;
 
 	public Crew(String name, UniqueIdentifier identifier) {
 		super(name, identifier);
-		this.membersRole = new HashMap<Member, Role>();
-		this.rolesPowers = new HashMap<Role, Collection<Power>>();
+		this.guysRole = new HashMap<Guy, Role>();
+		this.rolesPowers = new HashMap<Role, Set<Power>>();
 	}
 
 	/**
-	 * Hire a new {@link Member} in the {@link Crew} with a {@link Role}
+	 * Add a {@link Guy} in the {@link Crew} with a {@link Role}. If the
+	 * {@link Guy} already belongs to the {@link Crew}, he acquires the new
+	 * {@link Role}.
 	 * 
-	 * @param member
-	 *            The {@link Member} to hire
+	 * @param guy
+	 *            The {@link Guy} to hire
 	 * @param role
-	 *            The {@link Role} given to the {@link Member} in the {@link Crew}
+	 *            The {@link Role} given to the {@link Guy} in the {@link Crew}
 	 */
-	public void hire(Member member, Role role)  {
-		Assert.notNull(member, "A Member cannot be null");
-		Assert.notNull(role, "Every Member needs a Role.");
+	public void hire(Guy guy, Role role) {
+		if (guy == null || role == null)
+			return;
 		//
-		this.membersRole.put(member, role);
+		this.guysRole.put(guy, role);
 		//
 		if (!this.rolesPowers.containsKey(role))
-			this.rolesPowers.put(role, new ArrayList<Power>());
+			this.rolesPowers.put(role, new HashSet<Power>());
 	}
 
-	public void fire(Member member) {
-		if (this.membersRole.containsKey(member))
-			this.membersRole.remove(member);
+	/**
+	 * Remove a {@link Guy} from the {@link Crew}. If the {@link Guy} does not
+	 * belong to the {@link Crew}, nothing happens.
+	 * 
+	 * @param guy
+	 *            The {@link Guy} to remove
+	 */
+	public void fire(Guy guy) {
+		if (guy != null && this.guysRole.containsKey(guy))
+			this.guysRole.remove(guy);
 	}
 
+	public void grant(Power power, Guy guy) {
+		if (guy != null && this.guysRole.containsKey(guy))
+			grant(power, this.guysRole.get(guy));
+	}
 
-	public Collection<Member> memberWithRole(Role role) {
-		Collection<Member> members = new HashSet<Member>();
-		//
-		for (Member member : this.membersRole.keySet())
-			if (this.membersRole.get(member).equals(role))
-				members.add(member);
-		//
-		return members;
+	public void grant(Power power, Role role) {
+		if (power != null && role != null && this.rolesPowers.containsKey(role)
+				&& !this.rolesPowers.get(role).contains(power))
+			this.rolesPowers.get(role).add(power);
+	}
+
+	public void revoke(Power power, Guy guy) {
+		if (guy != null && this.guysRole.containsKey(guy))
+			revoke(power, this.guysRole.get(guy));
+	}
+
+	public void revoke(Power power, Role role) {
+		if (power != null && role != null && this.rolesPowers.containsKey(role)
+				&& this.rolesPowers.get(role).contains(power))
+			this.rolesPowers.get(role).remove(power);
 	}
 
 }
