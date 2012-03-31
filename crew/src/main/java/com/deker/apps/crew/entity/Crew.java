@@ -1,16 +1,10 @@
 package com.deker.apps.crew.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.util.Assert;
-
-import com.deker.apps.crew.entity.exception.GuyNotInCrewException;
-import com.deker.apps.crew.entity.exception.RoleNotInCrewException;
 import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
 /**
