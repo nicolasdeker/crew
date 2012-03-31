@@ -1,4 +1,4 @@
-package com.deker.apps.crew.model;
+package com.deker.apps.crew.entity.identifier;
 
 import java.util.Map;
 

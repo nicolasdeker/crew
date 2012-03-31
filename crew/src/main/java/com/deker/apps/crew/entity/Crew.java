@@ -1,4 +1,4 @@
-package com.deker.apps.crew.model.entities.crew;
+package com.deker.apps.crew.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,11 +8,7 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-import com.deker.apps.crew.model.AbstractEntity;
-import com.deker.apps.crew.model.UniqueIdentifier;
-import com.deker.apps.crew.model.entities.Member;
-import com.deker.apps.crew.model.entities.Power;
-import com.deker.apps.crew.model.entities.Role;
+import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
 /**
  * A <i>Crew</i> is made of {@link Member}s.

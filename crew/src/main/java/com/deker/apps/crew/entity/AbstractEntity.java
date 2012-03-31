@@ -1,4 +1,6 @@
-package com.deker.apps.crew.model;
+package com.deker.apps.crew.entity;
+
+import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
 public abstract class AbstractEntity {
 

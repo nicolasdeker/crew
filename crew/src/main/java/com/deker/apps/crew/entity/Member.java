@@ -1,7 +1,6 @@
-package com.deker.apps.crew.model.entities;
+package com.deker.apps.crew.entity;
 
-import com.deker.apps.crew.model.AbstractEntity;
-import com.deker.apps.crew.model.UniqueIdentifier;
+import com.deker.apps.crew.entity.identifier.UniqueIdentifier;
 
 public class Member extends AbstractEntity{
 
